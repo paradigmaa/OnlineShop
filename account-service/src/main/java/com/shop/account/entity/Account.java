@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "Account")
@@ -17,17 +19,9 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountid;
+    private Long id;
 
-    private String name;
+    private String AccountName;
 
-    private BigDecimal balance;
-
-    private String email;
-
-    private String phone;
-
-    @ManyToMany
-    private List<Item>items;
 
 }
