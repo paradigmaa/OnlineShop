@@ -1,0 +1,13 @@
+### IntelliJ IDEA ###
+.idea/
+.gradle/
+SpringMicro.iml
+settings.gradle
+gradlew.bat
+build.gradle
+src
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+**/build/
+!**/src/
