@@ -13,7 +13,7 @@ spring:
             - Path=/item/**
 
         - id: order-service
-          uri: lb://deposit-service
+          uri: lb://order-service
           predicates:
             - Path=/order/**
 
