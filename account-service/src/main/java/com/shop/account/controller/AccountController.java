@@ -20,12 +20,12 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/Allaccounts")
+    @GetMapping("/get")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.ok(accountService.getAllAccounts());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
         return ResponseEntity.ok(accountService.getAccountById(id));
     }
@@ -33,14 +33,13 @@ public class AccountController {
     public ResponseEntity<Account> createAccount(@RequestBody Account account) {
            return new ResponseEntity<Account>(accountService.saveAccount(account), HttpStatus.CREATED);
     }
-    @PutMapping("/{id}")
+    @PostMapping("/update/{id}")
     public ResponseEntity<Account> updateAccount(@PathVariable Long id, @RequestBody Account account) {
-        Account updatedAccount = accountService.updateAccount(id, account);
-        return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+        return new ResponseEntity<>(accountService.updateAccount(id, account), HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<List<Account>> deleteAccount(@PathVariable Long id) {
-        accountService.deleteAccountById(id);
+        accountService.deleteAccount(id);
         return ResponseEntity.ok(accountService.getAllAccounts());
     }
 }

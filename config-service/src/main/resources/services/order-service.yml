@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    properties.hibernate.temp.use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: none
+    properties:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://192.168.0.106:5432/order_service_database
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+server:
+  servlet:
+    context-path: /orders
+  port: 8083

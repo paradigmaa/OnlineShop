@@ -8,14 +8,14 @@ spring:
             - Path=/accounts/**
 
         - id: item-service
-          uri: lb://bill-service
+          uri: lb://item-service
           predicates:
-            - Path=/item/**
+            - Path=/items/**
 
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/order/**
+            - Path=/orders/**
 
 server:
   port: 8989

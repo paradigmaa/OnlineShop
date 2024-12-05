@@ -20,24 +20,29 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/create")
     public ResponseEntity<Item> saveItem(@RequestBody Item item){
         return new ResponseEntity<Item>(itemService.save(item), HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/get")
     public ResponseEntity<List<Item>>getAllItem(){
         return ResponseEntity.ok(itemService.findAll());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<List<Item>>deletedItem(@PathVariable Long id){
         itemService.delete(id);
-        return ResponseEntity.ok(itemService.findAll());
+        return ResponseEntity.ok(getAllItem().getBody());
     }
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Item>updateItem(@PathVariable Long id, @RequestBody Item item){
-        Item updateItem = itemService.updateItem(id, item);
-        return new ResponseEntity<Item>(updateItem, HttpStatus.OK);
+        Item resp = itemService.updateItem(id, item);
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Item> getItemId(@PathVariable Long id){
+        return ResponseEntity.ok(itemService.getItemById(id));
     }
 }
