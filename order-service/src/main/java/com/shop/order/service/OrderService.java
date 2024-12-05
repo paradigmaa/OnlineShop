@@ -1,6 +1,5 @@
 package com.shop.order.service;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shop.order.OrderRepository.OrderRepository;
+import com.shop.order.repository.OrderRepository;
 import com.shop.order.dto.request.OrderRequestDTO;
 import com.shop.order.dto.response.AccountResponseDTO;
 import com.shop.order.dto.response.ItemResponseDTO;
@@ -34,13 +33,15 @@ public class OrderService {
     }
 
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
-        ResponseEntity<AccountResponseDTO> accountResponsRest = restTemplate.getForEntity(urlAccount + requestDTO.getAccountId(), AccountResponseDTO.class);
-        ResponseEntity<ItemResponseDTO> itemsResponsRest = restTemplate.getForEntity(urlItem + requestDTO.getItemId(), ItemResponseDTO.class);
-        Order order = new Order();
-        order.setAccountId(accountResponsRest.getBody().getId());
-        order.setItemId(itemsResponsRest.getBody().getId());
-        Order ordersave = orderRepository.save(order);
-        return OrderMapper.mapOrderToOrderResponseDTO(ordersave);
+            ResponseEntity<AccountResponseDTO> accountResponsRest = restTemplate.getForEntity(urlAccount + requestDTO.getAccountId(), AccountResponseDTO.class);
+            ResponseEntity<ItemResponseDTO> itemsResponsRest = restTemplate.getForEntity(urlItem + requestDTO.getItemId(), ItemResponseDTO.class);
+            Order order = new Order();
+            order.setAccountId(accountResponsRest.getBody().getId());
+            order.setItemId(itemsResponsRest.getBody().getId());
+            order.setAccountName(accountResponsRest.getBody().getAccountName());
+            order.setItemName(itemsResponsRest.getBody().getItemName());
+            Order ordersave = orderRepository.save(order);
+            return OrderMapper.mapOrderToOrderResponseDTO(ordersave);
     }
 
     @Transactional(readOnly = true)
@@ -89,6 +90,5 @@ public class OrderService {
         }
         return result.isEmpty() ? null : result;
     }
-
 }
 

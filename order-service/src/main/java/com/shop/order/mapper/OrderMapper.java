@@ -10,6 +10,8 @@ public class OrderMapper {
         dto.setId(order.getId());
         dto.setAccountId(order.getAccountId());
         dto.setItemId(order.getItemId());
+        dto.setItemName(order.getItemName());
+        dto.setAccountName(order.getAccountName());
         return dto;
     }
     public static Order mapOrderRequstDTOToOrder (OrderRequestDTO orderRequestDTO) {

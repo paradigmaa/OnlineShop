@@ -1,10 +1,9 @@
-package com.shop.order.Controller;
+package com.shop.order.controller;
 
 import com.shop.order.dto.request.OrderRequestDTO;
 import com.shop.order.dto.response.AccountResponseDTO;
 import com.shop.order.dto.response.ItemResponseDTO;
 import com.shop.order.dto.response.OrderResponseDTO;
-import com.shop.order.entity.Order;
 import com.shop.order.mapper.OrderMapper;
 import com.shop.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.shop.service;
+package com.shop.item.service;
 import brave.internal.baggage.BaggageContext;
 import com.shop.item.entity.Item;
 import com.shop.item.exception.ItemNotFoundException;

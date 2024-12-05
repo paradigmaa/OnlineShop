@@ -1,7 +1,5 @@
-package com.shop.order.OrderRepository;
-import com.shop.order.dto.response.OrderResponseDTO;
+package com.shop.order.repository;
 import com.shop.order.entity.Order;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -12,4 +12,8 @@ public class OrderResponseDTO {
     private Long accountId;
 
     private Long itemId;
+
+    private String accountName;
+
+    private String itemName;
 }
