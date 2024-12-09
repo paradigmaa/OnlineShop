@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,5 +16,13 @@ public class AccountResponseDTO {
 
     private Long id;
 
+    @JsonProperty("accountName")
     private String accountName;
+
+    @JsonProperty("accountEmail")
+    private String accountEmail;
+
+    @JsonProperty("accountBalance")
+    private BigDecimal balance;
+
 }

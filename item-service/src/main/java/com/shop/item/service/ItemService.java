@@ -6,6 +6,7 @@ import com.shop.item.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 @Service
 @Transactional
@@ -24,6 +25,8 @@ public class ItemService {
     }
 
     public Item save(Item item) {
+        item.setCreatedAt(new Date());
+        item.setLastUpdate(new Date());
        return itemRepository.save(item);
     }
 
@@ -39,6 +42,8 @@ public class ItemService {
     public Item updateItem(Long id, Item item){
         Item oldItem = getItemById(id);
         oldItem.setItemName(item.getItemName());
+        oldItem.setQuantity(item.getQuantity());
+        oldItem.setLastUpdate(new Date());
         return save(oldItem);
     }
 }

@@ -53,6 +53,6 @@ public class AccountController {
     @PostMapping("/deposit/{accountId}")
     public ResponseEntity<accountResponseDTO>DepositBalance(@PathVariable Long accountId, BigDecimal deposit){
         return new  ResponseEntity<accountResponseDTO>
-                (accountMapper.mapAccountToAccountResponseDTO(accountService.depositBalance(accountId,deposit)), HttpStatus.OK);
+                 (accountMapper.mapAccountToAccountResponseDTO(accountService.depositBalance(accountId,deposit)), HttpStatus.OK);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,24 +25,31 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    String urlAccount = "http://192.168.0.106:8081/accounts/get/";
-    String urlItem = "http://192.168.0.106:8082/items/get/";
+    final String urlAccount = "http://192.168.0.106:8081/accounts/get/";
+    final String urlItem = "http://192.168.0.106:8082/items/get/";
 
     public OrderService(RestTemplate restTemplate, OrderRepository orderRepository) {
         this.restTemplate = restTemplate;
         this.orderRepository = orderRepository;
     }
 
-    public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
+    public Order createOrder(OrderRequestDTO requestDTO) {
             ResponseEntity<AccountResponseDTO> accountResponsRest = restTemplate.getForEntity(urlAccount + requestDTO.getAccountId(), AccountResponseDTO.class);
             ResponseEntity<ItemResponseDTO> itemsResponsRest = restTemplate.getForEntity(urlItem + requestDTO.getItemId(), ItemResponseDTO.class);
+            AccountResponseDTO accountResponseDTO = accountResponsRest.getBody();
+            ItemResponseDTO itemResponseDTO = itemsResponsRest.getBody();
             Order order = new Order();
-            order.setAccountId(accountResponsRest.getBody().getId());
-            order.setItemId(itemsResponsRest.getBody().getId());
-            order.setAccountName(accountResponsRest.getBody().getAccountName());
-            order.setItemName(itemsResponsRest.getBody().getItemName());
-            Order ordersave = orderRepository.save(order);
-            return OrderMapper.mapOrderToOrderResponseDTO(ordersave);
+            order.setAccountId(accountResponseDTO.getId());
+            order.setItemId(itemResponseDTO.getId());
+            order.setAccountName(accountResponseDTO.getAccountName());
+            order.setItemName(itemResponseDTO.getItemName());
+            order.setAccountBalance(accountResponseDTO.getBalance());
+            order.setQuantityItems(itemResponseDTO.getQuantityItems());
+            order.setEmail(accountResponseDTO.getAccountEmail());
+            order.setPrice(itemResponseDTO.getPrice());
+            order.setCreatedAt(new Date());
+            order.setLastUpdate(new Date());
+            return orderRepository.save(order);
     }
 
     @Transactional(readOnly = true)
@@ -57,6 +65,10 @@ public class OrderService {
 
     public void deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
+    }
+
+    public List<Order> findOrderByAccountId(Long accountId){
+        return orderRepository.findOrderByAccountId(accountId);
     }
 
     public OrderResponseDTO updateOrder(Long orderId, OrderRequestDTO orderRequestDTO) {

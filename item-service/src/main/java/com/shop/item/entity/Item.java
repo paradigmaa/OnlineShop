@@ -21,10 +21,16 @@ public class Item {
     private Long id;
 
     @Column(name = "item_name")
+    @JsonProperty("itemName")
     private String itemName;
 
     @Column(name = "quantity")
+    @JsonProperty("quantity")
     private Long quantity;
+
+    @Column(name = "price")
+    @JsonProperty("priceItem")
+    private Long price;
 
     @Column(name = "date_created", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

@@ -1,12 +1,14 @@
 package com.shop.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shop.order.dto.response.OrderResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -21,16 +23,36 @@ public class Order {
     private Long Id;
 
     @Column(name = "account_id")
+    @JsonProperty("accountId")
     private Long accountId;
 
     @Column(name = "item_id")
+    @JsonProperty("itemId")
     private Long itemId;
 
     @Column(name = "account_name")
+    @JsonProperty("accountName")
     private String accountName;
 
+    @Column(name = "email")
+    @JsonProperty("accountEmail")
+    private String email;
+
     @Column(name = "item_name")
+    @JsonProperty("itemName")
     private String itemName;
+
+    @Column(name = "account_balance")
+    @JsonProperty("accountBalance")
+    private BigDecimal accountBalance;
+
+    @Column(name = "price_items")
+    @JsonProperty("priceItem")
+    private Long price;
+
+    @Column(name = "quantity_items")
+    @JsonProperty("quantityItems")
+    private Long quantityItems;
 
     @Column(name = "date_created", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,4 +63,5 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonProperty("lastUpdate")
     private Date lastUpdate;
+
 }

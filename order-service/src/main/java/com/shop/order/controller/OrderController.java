@@ -1,5 +1,6 @@
 package com.shop.order.controller;
 
+import com.netflix.spectator.impl.PatternExpr;
 import com.shop.order.dto.request.OrderRequestDTO;
 import com.shop.order.dto.response.AccountResponseDTO;
 import com.shop.order.dto.response.ItemResponseDTO;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.shop.order.entity.Order;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RestController
 public class OrderController {
@@ -24,8 +27,14 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<OrderResponseDTO> createOrder (@RequestBody OrderRequestDTO requestDTO) {
-        return new ResponseEntity<OrderResponseDTO>(orderService.createOrder(requestDTO), HttpStatus.CREATED);
+    public ResponseEntity<Order> createOrder (@RequestBody OrderRequestDTO requestDTO) {
+        return new ResponseEntity<Order>(orderService.createOrder(requestDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getOrdersByAccountId/{accountId}")
+    public ResponseEntity<List<OrderResponseDTO>>getOrderByAccountID(@PathVariable Long accountId){
+        return new ResponseEntity<List<OrderResponseDTO>>(orderService.findOrderByAccountId(accountId).stream().
+                map(OrderResponseDTO::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/get/{orderId}")
@@ -44,12 +53,12 @@ public class OrderController {
         return new ResponseEntity<OrderResponseDTO>(orderService.updateOrder(orderId, orderRequestDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/account/{accountId}/items")
+    @GetMapping("/getItemsByAccountId/{accountId}")
     public List<ItemResponseDTO> accountItems(@PathVariable Long accountId){
         return orderService.getItemsAccount(accountId);
     }
 
-    @GetMapping("/item/{itemId}/accounts")
+    @GetMapping("/getAccountByItemId/{itemId}")
     public List<AccountResponseDTO> itemAccount(@PathVariable Long itemId) {
         return orderService.getAccountsItem(itemId);
     }
@@ -58,6 +67,4 @@ public class OrderController {
     public List<OrderResponseDTO> getOrders(){
         return orderService.getAllOrders();
     }
-
-
 }

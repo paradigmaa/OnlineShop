@@ -27,11 +27,11 @@ public class Account{
     private String accountName;
 
     @Column(name = "email")
-    @JsonProperty("email")
+    @JsonProperty("accountEmail")
     private String email;
 
     @Column(name = "balance")
-    @JsonProperty("balance")
+    @JsonProperty("accountBalance")
     private BigDecimal balance;
 
     @Column(name = "date_created", nullable = false, updatable = false)

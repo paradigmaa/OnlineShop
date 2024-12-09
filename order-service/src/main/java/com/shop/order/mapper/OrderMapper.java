@@ -10,6 +10,8 @@ public class OrderMapper {
         dto.setId(order.getId());
         dto.setAccountId(order.getAccountId());
         dto.setItemId(order.getItemId());
+        dto.setAccountBalance(order.getAccountBalance());
+        dto.setQuantityItems(order.getQuantityItems());
         dto.setItemName(order.getItemName());
         dto.setAccountName(order.getAccountName());
         return dto;

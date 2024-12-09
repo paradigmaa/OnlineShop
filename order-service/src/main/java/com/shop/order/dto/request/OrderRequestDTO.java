@@ -1,5 +1,6 @@
 package com.shop.order.dto.request;
 
+import com.shop.order.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
