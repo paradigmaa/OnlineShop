@@ -1,0 +1,23 @@
+logging:
+  level:
+    org.springframework.security: INFO
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      backendA:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+  retry:
+    instances:
+      backendA:
+        maxRetryAttempts: 3
+        waitDuration: 1s
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.106:8761/eureka/
+
+

@@ -1,0 +1,13 @@
+rootProject.name = 'OnlineShop'
+include 'account-service'
+include 'config-service'
+include 'gateway'
+include 'item-service'
+include 'notification'
+include 'account-service:order-service'
+findProject(':account-service:order-service')?.name = 'order-service'
+include 'pay-service'
+include 'registry'
+include 'odred-service'
+include 'order-service'
+

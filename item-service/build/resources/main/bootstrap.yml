@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: item-service
+  cloud:
+    config:
+      uri: http://192.168.0.106:8001
+      fail-fast: true
+      password: admin
+      username: user

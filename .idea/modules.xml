@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/account-service/OnlineShop.account-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/account-service/OnlineShop.account-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/item-service/OnlineShop.item-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/item-service/OnlineShop.item-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service/OnlineShop.order-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service/OnlineShop.order-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pay-service/OnlineShop.pay-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pay-service/OnlineShop.pay-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/account-service/com.home.account.OnlineShop.account-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/account-service/com.home.account.OnlineShop.account-service.main.iml" />
+    </modules>
+  </component>
+</project>
