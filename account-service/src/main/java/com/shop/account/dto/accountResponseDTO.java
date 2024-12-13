@@ -1,6 +1,7 @@
 package com.shop.account.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shop.account.entity.Account;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class accountResponseDTO {
-    @JsonProperty("id")
+    @JsonProperty("accountId")
     private Long id;
     @JsonProperty("accountName")
     private String accountName;
@@ -27,4 +28,13 @@ public class accountResponseDTO {
     private Date createdAt;
     @JsonProperty("lastUpdate")
     private Date lastUpdate;
+
+    public accountResponseDTO(Account account) {
+        this.id = account.getId();
+        this.accountName = account.getAccountName();
+        this.email = account.getEmail();
+        this.balance = account.getBalance();
+        this.createdAt = account.getCreatedAt();
+        this.lastUpdate = account.getLastUpdate();
+    }
 }

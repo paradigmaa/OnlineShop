@@ -41,8 +41,13 @@ public class ItemService {
 
     public Item updateItem(Long id, Item item){
         Item oldItem = getItemById(id);
-        oldItem.setItemName(item.getItemName());
-        oldItem.setQuantity(item.getQuantity());
+        if(item.getItemName() != null) {
+            oldItem.setItemName(item.getItemName());
+        }if(item.getQuantity() != null) {
+            oldItem.setQuantity(item.getQuantity());
+        }if(item.getPrice() != null) {
+            oldItem.setPrice(item.getPrice());
+        }
         oldItem.setLastUpdate(new Date());
         return save(oldItem);
     }

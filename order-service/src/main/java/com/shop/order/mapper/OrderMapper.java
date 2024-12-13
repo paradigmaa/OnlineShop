@@ -10,10 +10,15 @@ public class OrderMapper {
         dto.setId(order.getId());
         dto.setAccountId(order.getAccountId());
         dto.setItemId(order.getItemId());
+        dto.setItemName(order.getItemName());
         dto.setAccountBalance(order.getAccountBalance());
         dto.setQuantityItems(order.getQuantityItems());
-        dto.setItemName(order.getItemName());
         dto.setAccountName(order.getAccountName());
+        dto.setPrice(order.getPrice());
+        dto.setCreatedAt(order.getCreatedAt());
+        dto.setEmail(order.getEmail());
+        dto.setLastUpdate(order.getLastUpdate());
+        dto.setTotalAmountOrder(order.getTotalAmountOrder());
         return dto;
     }
     public static Order mapOrderRequstDTOToOrder (OrderRequestDTO orderRequestDTO) {

@@ -47,9 +47,13 @@ public class AccountService {
 
     public Account updateAccount(Long id, Account account){
         Account oldAccount = getAccountById(id);
-        oldAccount.setAccountName(account.getAccountName());
-        oldAccount.setEmail(account.getEmail());
-        oldAccount.setBalance(account.getBalance());
+        if(account.getAccountName() != null) {
+            oldAccount.setAccountName(account.getAccountName());
+        }if (account.getEmail() != null) {
+            oldAccount.setEmail(account.getEmail());
+        }if(account.getBalance() != null) {
+            oldAccount.setBalance(account.getBalance());
+        }
         oldAccount.setLastUpdate(new Date());
         return saveAccount(oldAccount);
     }

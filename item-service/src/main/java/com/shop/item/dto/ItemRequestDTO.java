@@ -1,20 +1,14 @@
-package com.shop.order.dto.response;
+package com.shop.item.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
-@Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ItemResponseDTO {
-    @JsonProperty("itemId")
+@Setter
+public class ItemRequestDTO {
     private Long id;
 
     @JsonProperty("itemName")
@@ -26,4 +20,9 @@ public class ItemResponseDTO {
     @JsonProperty("itemPrice")
     private BigDecimal price;
 
+    @JsonProperty("createdAt")
+    private Date createdAt;
+
+    @JsonProperty("lastUpdate")
+    private Date lastUpdate;
 }

@@ -27,8 +27,8 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder (@RequestBody OrderRequestDTO requestDTO) {
-        return new ResponseEntity<Order>(orderService.createOrder(requestDTO), HttpStatus.CREATED);
+    public ResponseEntity<String> createOrder (@RequestBody OrderRequestDTO requestDTO) {
+        return new ResponseEntity<String>(orderService.createOrder(requestDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/getOrdersByAccountId/{accountId}")
@@ -43,9 +43,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/delete/{orderId}")
-    public ResponseEntity<String> deleteOrder(@PathVariable Long orderId){
+    public ResponseEntity<List<OrderResponseDTO>> deleteOrder(@PathVariable Long orderId){
         orderService.deleteOrder(orderId);
-        return ResponseEntity.ok("Delete order" + orderId );
+        return ResponseEntity.ok(getOrders());
     }
 
     @PostMapping("/update/{orderId}")

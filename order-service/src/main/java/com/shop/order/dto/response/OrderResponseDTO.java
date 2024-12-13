@@ -1,10 +1,12 @@
 package com.shop.order.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shop.order.entity.Order;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,21 +14,41 @@ import java.math.BigDecimal;
 @Getter
 public class OrderResponseDTO {
 
+    @JsonProperty("orderId")
     private Long Id;
 
+    @JsonProperty("accountId")
     private Long accountId;
 
+    @JsonProperty("itemId")
     private Long itemId;
 
+    @JsonProperty("accountName")
     private String accountName;
 
-    private String email;
-
+    @JsonProperty("itemName")
     private String itemName;
 
+    @JsonProperty("accountEmail")
+    private String email;
+
+    @JsonProperty("accountBalance")
     private BigDecimal accountBalance;
 
+    @JsonProperty("itemPrice")
+    private BigDecimal price;
+
+    @JsonProperty("itemQuantity")
     private Long quantityItems;
+
+    @JsonProperty("totalAmountOrder")
+    private BigDecimal totalAmountOrder;
+
+    @JsonProperty("createdAt")
+    private Date createdAt;
+
+    @JsonProperty("lastUpdate")
+    private Date lastUpdate;
 
     public OrderResponseDTO(Order order) {
         Id = order.getId();

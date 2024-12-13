@@ -1,20 +1,14 @@
 package com.shop.pay.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class OrderResponseDTO {
+public class PayResponseDTO {
+    @JsonProperty("payId")
+    private Long payId;
+
     @JsonProperty("orderId")
     private Long Id;
 
@@ -36,18 +30,15 @@ public class OrderResponseDTO {
     @JsonProperty("accountBalance")
     private BigDecimal accountBalance;
 
+    @JsonProperty("totalAmountOrder")
+    private BigDecimal totalAmountOrder;
+
     @JsonProperty("itemPrice")
     private BigDecimal price;
 
     @JsonProperty("itemQuantity")
     private Long quantityItems;
 
-    @JsonProperty("totalAmountOrder")
-    private BigDecimal totalAmountOrder;
-
     @JsonProperty("createdAt")
     private Date createdAt;
-
-    @JsonProperty("lastUpdate")
-    private Date lastUpdate;
 }

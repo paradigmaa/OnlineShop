@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AccountController {
@@ -24,8 +25,8 @@ public class AccountController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<Account>> getAllAccounts() {
-        return ResponseEntity.ok(accountService.getAllAccounts());
+    public ResponseEntity<List<accountResponseDTO>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts().stream().map(accountResponseDTO::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/get/{id}")
