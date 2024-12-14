@@ -60,10 +60,9 @@ public class OrderService {
             BigDecimal totalOrderAmount = order.getPrice().multiply(new BigDecimal(order.getQuantityItems()));
             order.setTotalAmountOrder(totalOrderAmount);
             order.setCreatedAt(new Date());
-            order.setLastUpdate(new Date());
             orderRepository.save(order);
             Long remainingGoods = itemResponseDTO.getQuantity() - requestDTO.getQuantityItem();
-            String urlUpdateItem = "http://192.168.0.106:8082/items/update/" + requestDTO.getItemId();
+            String urlUpdateItem = updateItemUrl + requestDTO.getItemId();
             itemUpdateRequestDTO newBalance = new itemUpdateRequestDTO(remainingGoods);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

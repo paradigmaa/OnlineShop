@@ -17,7 +17,6 @@ public class OrderMapper {
         dto.setPrice(order.getPrice());
         dto.setCreatedAt(order.getCreatedAt());
         dto.setEmail(order.getEmail());
-        dto.setLastUpdate(order.getLastUpdate());
         dto.setTotalAmountOrder(order.getTotalAmountOrder());
         return dto;
     }

@@ -16,10 +16,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "OrderDB")
+@Table(name = "Order_DB")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long Id;
 
     @Column(name = "account_id")
@@ -37,14 +38,14 @@ public class Order {
     @Column(name = "item_name")
     private String itemName;
 
-    @Column(name = "account_balance")
-    private BigDecimal accountBalance;
-
-    @Column(name = "price_items")
+    @Column(name = "price_item")
     private BigDecimal price;
 
-    @Column(name = "quantity_items")
+    @Column(name = "quantity_item")
     private Long quantityItems;
+
+    @Column(name = "account_balance")
+    private BigDecimal accountBalance;
 
     @Column(name = "total_amount_order")
     private BigDecimal totalAmountOrder;
@@ -52,9 +53,4 @@ public class Order {
     @Column(name = "date_created", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-
-    @Column(name = "last_update", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdate;
-
 }

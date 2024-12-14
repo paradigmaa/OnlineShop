@@ -47,9 +47,6 @@ public class OrderResponseDTO {
     @JsonProperty("createdAt")
     private Date createdAt;
 
-    @JsonProperty("lastUpdate")
-    private Date lastUpdate;
-
     public OrderResponseDTO(Order order) {
         Id = order.getId();
         this.accountId = order.getAccountId();

@@ -19,7 +19,6 @@ public class OrderRequestDTO {
     @JsonProperty("itemId")
     private Long itemId;
 
-
     @JsonProperty("itemQuantity")
     private Long quantityItem;
 }
