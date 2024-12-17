@@ -21,4 +21,5 @@ public class OrderRequestDTO {
 
     @JsonProperty("itemQuantity")
     private Long quantityItem;
+
 }

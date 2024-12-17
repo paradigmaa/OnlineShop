@@ -10,6 +10,7 @@ import com.shop.order.dto.response.OrderResponseDTO;
 import com.shop.order.entity.Order;
 import com.shop.order.exception.NotFoundOrderException;
 import com.shop.order.mapper.OrderMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public class OrderService {
     final String urlItem = "http://192.168.0.106:8082/items/get/";
     final String updateItemUrl = "http://192.168.0.106:8082/items/update/";
 
+    @Autowired
     public OrderService(RestTemplate restTemplate, OrderRepository orderRepository) {
         this.restTemplate = restTemplate;
         this.orderRepository = orderRepository;
@@ -43,10 +45,12 @@ public class OrderService {
         ResponseEntity<ItemResponseDTO> itemsResponsRest = restTemplate.getForEntity(urlItem + requestDTO.getItemId(), ItemResponseDTO.class);
         AccountResponseDTO accountResponseDTO = accountResponsRest.getBody();
         ItemResponseDTO itemResponseDTO = itemsResponsRest.getBody();
+
         if (accountResponseDTO.getId() == null && itemResponseDTO.getId() == null &&
                 itemResponseDTO.getQuantity() == null) {
             throw new NotFoundAccountOrItem("Not account or item");
         }
+
         if (itemResponseDTO.getQuantity() - requestDTO.getQuantityItem() > 0) {
             Order order = new Order();
             order.setAccountId(accountResponseDTO.getId());

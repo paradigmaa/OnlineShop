@@ -1,5 +1,6 @@
 package com.shop.account.service;
 
+import com.shop.account.dto.OrderResponseDTO;
 import com.shop.account.dto.accountRequestDTO;
 import com.shop.account.dto.accountResponseDTO;
 import com.shop.account.entity.Account;
@@ -9,6 +10,7 @@ import com.shop.account.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,7 +22,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    @Autowired
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
