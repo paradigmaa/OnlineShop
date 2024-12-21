@@ -6,14 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class itemUpdateRequestDTO {
-    @JsonProperty("itemQuantity")
-    private Long newBalance;
+@AllArgsConstructor
+public class ItemRequestDTO {
+    @JsonProperty("itemName")
+    private String itemName;
 
-    public itemUpdateRequestDTO(Long newBalance) {
-        this.newBalance = newBalance;
-    }
+    @JsonProperty("itemQuantity")
+    private Long quantity;
+
+    @JsonProperty("itemPrice")
+    private BigDecimal price;
 }

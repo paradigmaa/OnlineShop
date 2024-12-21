@@ -1,6 +1,8 @@
 package com.shop.order.service;
 
-import com.shop.order.dto.request.itemUpdateRequestDTO;
+import com.shop.order.dto.itemUpdate;
+import com.shop.order.dto.request.accountRequestDTO;
+import com.shop.order.dto.request.ItemRequestDTO;
 import com.shop.order.exception.NotFoundAccountOrItem;
 import com.shop.order.repository.OrderRepository;
 import com.shop.order.dto.request.OrderRequestDTO;
@@ -10,6 +12,7 @@ import com.shop.order.dto.response.OrderResponseDTO;
 import com.shop.order.entity.Order;
 import com.shop.order.exception.NotFoundOrderException;
 import com.shop.order.mapper.OrderMapper;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@Getter
 public class OrderService {
 
     private final RestTemplate restTemplate;
@@ -67,15 +71,15 @@ public class OrderService {
             orderRepository.save(order);
             Long remainingGoods = itemResponseDTO.getQuantity() - requestDTO.getQuantityItem();
             String urlUpdateItem = updateItemUrl + requestDTO.getItemId();
-            itemUpdateRequestDTO newBalance = new itemUpdateRequestDTO(remainingGoods);
+            itemUpdate itemUpdate = new itemUpdate(remainingGoods);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<itemUpdateRequestDTO> httpEntity = new HttpEntity<>(newBalance, headers);
-            ResponseEntity<itemUpdateRequestDTO>response =  restTemplate.exchange(
+            HttpEntity<itemUpdate> httpEntity = new HttpEntity<>(itemUpdate, headers);
+            ResponseEntity<itemUpdate>response =  restTemplate.exchange(
                     urlUpdateItem,
                     HttpMethod.POST,
                     httpEntity,
-                    itemUpdateRequestDTO.class
+                    itemUpdate.class
             );
             return String.format("Уважаемый %S, ваш заказ  %s успешно оформлен в количестве %s" +
                             " общая сумма заказа: %s ", order.getAccountName(), order.getItemName(),
@@ -101,9 +105,25 @@ public class OrderService {
         orderRepository.deleteById(orderId);
     }
 
-    public List<Order> findOrderByAccountId(Long accountId) {
-        return orderRepository.findOrderByAccountId(accountId);
+    public List<Order> updateAccountInTheOrder(Long accountId, accountRequestDTO accountRequestDTO ) {
+        List<Order> orders = orderRepository.findByAccountId(accountId);
+        if(accountRequestDTO.getAccountName() != null) {
+            orders.stream().map((order) -> order).forEach(order -> {
+                order.setAccountName(accountRequestDTO.getAccountName());
+            });
+        }if(accountRequestDTO.getEmail() != null) {
+            orders.stream().map((order) -> order).forEach(order -> {
+                order.setEmail(accountRequestDTO.getEmail());
+            });
+        }if(accountRequestDTO.getBalance() != null) {
+            orders.stream().map((order) -> order).forEach(order -> {
+                order.setAccountBalance(accountRequestDTO.getBalance());
+            });
+        }
+        orderRepository.saveAll(orders);
+        return orders;
     }
+
 
     public OrderResponseDTO updateOrder(Long orderId, OrderRequestDTO orderRequestDTO) {
         Order orderToUpdate = getOrderById(orderId);
@@ -112,6 +132,21 @@ public class OrderService {
         Order save = orderRepository.save(orderToUpdate);
         return OrderMapper.mapOrderToOrderResponseDTO(save);
     }
+
+    @Transactional(readOnly = true)
+    public List<Order> updateItemInTheOrder(Long itemId, ItemRequestDTO itemUpdateRequestDTO) {
+        List<Order> orders = orderRepository.findByItemId(itemId);
+        if(itemUpdateRequestDTO.getItemName() != null){
+            orders.stream().map((order) -> order).forEach(order -> {order.setItemName(itemUpdateRequestDTO.getItemName());});
+        }if(itemUpdateRequestDTO.getPrice() != null){
+            orders.stream().map((order) -> order).forEach(order -> {order.setPrice(itemUpdateRequestDTO.getPrice());});
+        }if(itemUpdateRequestDTO.getQuantity() != null){
+            orders.stream().map((order) -> order).forEach(order -> {order.setQuantityItems(order.getQuantityItems());});
+        }
+        orderRepository.saveAll(orders);
+        return orders;
+    }
+
 
     @Transactional(readOnly = true)
     public List<ItemResponseDTO> getItemsAccount(Long accountId) {
@@ -124,6 +159,7 @@ public class OrderService {
         }
         return result.isEmpty() ? null : result;
     }
+
 
     @Transactional(readOnly = true)
     public List<AccountResponseDTO> getAccountsItem(Long itemId) {

@@ -31,12 +31,6 @@ public class OrderController {
         return new ResponseEntity<String>(orderService.createOrder(requestDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getOrdersByAccountId/{accountId}")
-    public ResponseEntity<List<OrderResponseDTO>>getOrderByAccountID(@PathVariable Long accountId){
-        return new ResponseEntity<List<OrderResponseDTO>>(orderService.findOrderByAccountId(accountId).stream().
-                map(OrderResponseDTO::new).collect(Collectors.toList()), HttpStatus.OK);
-    }
-
     @GetMapping("/get/{orderId}")
     public ResponseEntity<OrderResponseDTO> getOrder(@PathVariable Long orderId){
        return new ResponseEntity<OrderResponseDTO>(OrderMapper.mapOrderToOrderResponseDTO(orderService.getOrderById(orderId)), HttpStatus.OK);
@@ -51,11 +45,6 @@ public class OrderController {
     @PostMapping("/update/{orderId}")
     public ResponseEntity<OrderResponseDTO> updateOrder(@PathVariable Long orderId, @RequestBody OrderRequestDTO orderRequestDTO){
         return new ResponseEntity<OrderResponseDTO>(orderService.updateOrder(orderId, orderRequestDTO), HttpStatus.OK);
-    }
-
-    @GetMapping("/getItemsByAccountId/{accountId}")
-    public List<ItemResponseDTO> accountItems(@PathVariable Long accountId){
-        return orderService.getItemsAccount(accountId);
     }
 
     @GetMapping("/getAccountByItemId/{itemId}")

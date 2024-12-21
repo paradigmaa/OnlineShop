@@ -7,6 +7,7 @@ import com.shop.account.entity.Account;
 import com.shop.account.exception.AccountNotFoundException;
 import com.shop.account.mapper.accountMapper;
 import com.shop.account.repositories.AccountRepository;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +23,12 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    private final KafkaProducerService kafkaProducerService;
+
+    @Autowired
+    public AccountService(AccountRepository accountRepository, KafkaProducerService kafkaProducerService) {
         this.accountRepository = accountRepository;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Transactional(readOnly = true)
@@ -56,7 +61,16 @@ public class AccountService {
             oldAccount.setBalance(account.getBalance());
         }
         oldAccount.setLastUpdate(new Date());
-        return saveAccount(oldAccount);
+        Account saveAccount =  saveAccount(oldAccount);
+
+        if(!oldAccount.getAccountName().equals(saveAccount.getAccountName())){
+            kafkaProducerService.sendMessage(saveAccount.getId(), saveAccount.getAccountName());
+        }if(!oldAccount.getEmail().equals(saveAccount.getEmail())){
+            kafkaProducerService.sendMessage(saveAccount.getId(), saveAccount.getEmail());
+        }if(!oldAccount.getBalance().equals(saveAccount.getBalance())){
+            kafkaProducerService.sendMessage(saveAccount.getId(), saveAccount.getBalance());
+        }
+        return saveAccount;
     }
 
     public void deleteAccount(Long accountId){
