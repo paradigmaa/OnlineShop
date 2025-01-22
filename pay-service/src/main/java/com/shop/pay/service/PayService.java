@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PayService {
@@ -25,8 +26,8 @@ public class PayService {
         this.restTemplate = restTemplate;
     }
 
-    String orderUlr = "http://192.168.0.106:8083/orders/get/";
-    String accountUrl = "http://192.168.0.106:8081/accounts/update/";
+    String orderUlr = "http://order-service/orders/get/";
+    String accountUrl = "http://account-service/accounts/update/";
 
     public String createPayment(Pay pay) {
         ResponseEntity<OrderResponseDTO> getOrder = restTemplate.getForEntity(orderUlr + pay.getOrderId(), OrderResponseDTO.class);
@@ -61,7 +62,7 @@ public class PayService {
 
     }
 
-    private Pay paymentSuccessful(OrderResponseDTO orderResponseDTO) {
+    public Pay paymentSuccessful(OrderResponseDTO orderResponseDTO) {
         Pay create = new Pay();
         create.setOrderId(orderResponseDTO.getId());
         create.setAccountId(orderResponseDTO.getAccountId());
@@ -77,7 +78,7 @@ public class PayService {
         return payRepository.save(create);
     }
 
-    private Pay paymentFailed(OrderResponseDTO orderResponseDTO) {
+    public Pay paymentFailed(OrderResponseDTO orderResponseDTO) {
         Pay create = new Pay();
         create.setOrderId(orderResponseDTO.getId());
         create.setAccountId(orderResponseDTO.getAccountId());
@@ -89,5 +90,9 @@ public class PayService {
         create.setCreatedAt(new Date());
         create.setStatus("Оплата не прошла");
         return payRepository.save(create);
+    }
+
+    public List<Pay> getPay(){
+        return payRepository.findAll();
     }
 }

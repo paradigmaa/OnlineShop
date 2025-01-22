@@ -34,9 +34,9 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    final String urlAccount = "http://192.168.0.106:8081/accounts/get/";
-    final String urlItem = "http://192.168.0.106:8082/items/get/";
-    final String updateItemUrl = "http://192.168.0.106:8082/items/update/";
+    final String urlAccount = "http://account-service/accounts/get/";
+    final String urlItem = "http://item-service/items/get/";
+    final String updateItemUrl = "http://item-service:8082/items/update/";
 
     @Autowired
     public OrderService(RestTemplate restTemplate, OrderRepository orderRepository) {
@@ -49,13 +49,13 @@ public class OrderService {
         ResponseEntity<ItemResponseDTO> itemsResponsRest = restTemplate.getForEntity(urlItem + requestDTO.getItemId(), ItemResponseDTO.class);
         AccountResponseDTO accountResponseDTO = accountResponsRest.getBody();
         ItemResponseDTO itemResponseDTO = itemsResponsRest.getBody();
-
-        if (accountResponseDTO.getId() == null && itemResponseDTO.getId() == null &&
-                itemResponseDTO.getQuantity() == null) {
-            throw new NotFoundAccountOrItem("Not account or item");
-        }
-
-        if (itemResponseDTO.getQuantity() - requestDTO.getQuantityItem() > 0) {
+        if (accountResponseDTO.getId() == null) {
+            throw new NotFoundAccountOrItem("Аккаунт не найден");
+        }if(itemResponseDTO.getId() == null) {
+            throw new NotFoundAccountOrItem("Товар не найден");
+        }if(itemResponseDTO.getQuantity() == null) {
+            throw new NotFoundAccountOrItem("Товар закончился");
+        }if (itemResponseDTO.getQuantity() - requestDTO.getQuantityItem() >= 0) {
             Order order = new Order();
             order.setAccountId(accountResponseDTO.getId());
             order.setItemId(itemResponseDTO.getId());

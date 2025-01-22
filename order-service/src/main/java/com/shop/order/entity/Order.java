@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Order_DB")
+@Table(name = "order_db")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,10 @@ public class Order {
     @Column(name = "item_name")
     private String itemName;
 
-    @Column(name = "price_item")
+    @Column(name = "price_items")
     private BigDecimal price;
 
-    @Column(name = "quantity_item")
+    @Column(name = "quantity_items")
     private Long quantityItems;
 
     @Column(name = "account_balance")

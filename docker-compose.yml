@@ -1,0 +1,141 @@
+services:
+  config-service:
+    container_name: config-service
+    build: config-service
+    ports:
+      - 8001:8001
+
+  registry:
+    container_name: registry
+    restart: always
+    build: registry
+    ports:
+      - 8761:8761
+    depends_on:
+      - config-service
+
+  gateway:
+    container_name: gateway
+    restart: always
+    build: gateway
+    ports:
+      - 8989:8989
+    depends_on:
+      - config-service
+      - registry
+
+  postgres-account:
+    image: postgres:latest
+    container_name: postgres-account
+    environment:
+      POSTGRES_DB: account_service_database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5435:5432
+    volumes:
+      - postgres-account-data:/var/lib/postgresql/data
+
+
+  postgres-item:
+    image: postgres:latest
+    container_name: postgres-item
+    environment:
+      POSTGRES_DB: item_service_database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5436:5432
+    volumes:
+      - postgres-item-data:/var/lib/postgresql/data
+
+
+  postgres-order:
+    image: postgres:latest
+    container_name: postgres-order
+    environment:
+      POSTGRES_DB: order_service_database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5437:5432
+    volumes:
+      - postgres-order-data:/var/lib/postgresql/data
+
+  postgres-pay:
+    image: postgres:latest
+    container_name: postgres-pay
+    environment:
+      POSTGRES_DB: pay_service_database
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5438:5432
+    volumes:
+      - postgres-pay-data:/var/lib/postgresql/data
+
+  account-service:
+    restart: on-failure
+    container_name: account-service
+    build: account-service
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-account:5432/account_service_database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - config-service
+      - registry
+      - postgres-account
+
+  item-service:
+    restart: on-failure
+    container_name: item-service
+    build: item-service
+    ports:
+      - 8082:8082
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-item:5432/item_service_database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - config-service
+      - registry
+      - postgres-item
+
+  order-service:
+    restart: on-failure
+    container_name: order-service
+    build: order-service
+    ports:
+      - 8083:8083
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-order:5432/order_service_database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - config-service
+      - registry
+      - postgres-order
+
+  pay-service:
+    restart: on-failure
+    container_name: pay-service
+    build: pay-service
+    ports:
+      - 8084:8084
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-pay:5432/pay_service_database
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - config-service
+      - registry
+      - postgres-pay
+
+volumes:
+  postgres-account-data:
+  postgres-item-data:
+  postgres-order-data:
+  postgres-pay-data:

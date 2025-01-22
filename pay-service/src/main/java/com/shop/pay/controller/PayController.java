@@ -2,11 +2,11 @@ package com.shop.pay.controller;
 
 import com.shop.pay.entity.Pay;
 import com.shop.pay.service.PayService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class PayController {
@@ -20,5 +20,10 @@ public class PayController {
     @PostMapping("/create")
     public String createPay(@RequestBody Pay pay) {
         return payService.createPayment(pay);
+    }
+
+    @GetMapping("/get")
+    public List<Pay> getPayList() {
+        return payService.getPay();
     }
 }

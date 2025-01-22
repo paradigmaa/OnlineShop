@@ -22,13 +22,9 @@ import java.util.List;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-
-    private final KafkaProducerService kafkaProducerService;
-
     @Autowired
-    public AccountService(AccountRepository accountRepository, KafkaProducerService kafkaProducerService) {
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Transactional(readOnly = true)
@@ -61,16 +57,7 @@ public class AccountService {
             oldAccount.setBalance(account.getBalance());
         }
         oldAccount.setLastUpdate(new Date());
-        Account saveAccount =  saveAccount(oldAccount);
-
-        if(!oldAccount.getAccountName().equals(saveAccount.getAccountName())){
-            kafkaProducerService.sendMessage(saveAccount.getId(), saveAccount.getAccountName());
-        }if(!oldAccount.getEmail().equals(saveAccount.getEmail())){
-            kafkaProducerService.sendMessage(saveAccount.getId(), saveAccount.getEmail());
-        }if(!oldAccount.getBalance().equals(saveAccount.getBalance())){
-            kafkaProducerService.sendMessage(saveAccount.getId(), saveAccount.getBalance());
-        }
-        return saveAccount;
+        return saveAccount(oldAccount);
     }
 
     public void deleteAccount(Long accountId){
